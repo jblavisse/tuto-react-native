@@ -1,19 +1,35 @@
 import React, {useState} from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'; 
 
 export default function App() {
   // Variable / Ce qui va permettre de modifier la variable / Valeur par défaut
   const [title, setTitle] = useState("Bonjour");
-  const [name, setName] = useState("");
+  const [nameInput, setNameInput] = useState("");
+
+  const [people, setPeople] = useState([
+    {name: "JiBou"},
+    {name: "JeanBite"}
+  ])
 
   function hello() {
     // Bonjour -> Bijour lé gins
     setTitle('Bijour lé gins');
   }
 
-  function displayName() {
-    console.log(name);
+  function addName() {
+    console.log(nameInput);
+    // Format {name: "JiBou"}
+    const newPerson = {name: nameInput};
+    // Ajouter dans la liste people
+    const newPeople = [...people, newPerson];
+    setPeople(newPeople);
+    setNameInput("");
   }
+
+  const peopleJSX = people.map(person => {
+    return <Text>{person.name}</Text>
+  })
 
   return (
     <View style={styles.container}>
@@ -23,11 +39,14 @@ export default function App() {
 
 
       <View style={styles.formulairrr}>
-        <TextInput style={styles.input} value={name}
-         onChangeText={(text) => {setName(text)}} />
-        <Button title="Go!" color="red" onPress={displayName} />
+        <TextInput style={styles.input} value={nameInput}
+         onChangeText={(text) => {setNameInput(text)}} />
+        <Button title="Go!" color="red" onPress={addName} />
       </View>
 
+      {peopleJSX}
+
+      <AntDesign name="carryout" size={48} color="#f7c2ef" />
     </View>
   );
 }
